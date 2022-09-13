@@ -1,6 +1,6 @@
-DROP DATABASE  IF EXISTS `PrototipoBD`;
-CREATE DATABASE IF NOT EXISTS `PrototipoBD`;
-USE `PrototipoBD`;
+DROP DATABASE  IF EXISTS `InfraestructuraBD`;
+CREATE DATABASE IF NOT EXISTS `InfraestructuraBD`;
+USE `InfraestructuraBD`;
 
 DROP TABLE IF EXISTS `Modulos`;
 CREATE TABLE IF NOT EXISTS `Modulos` (
@@ -47,7 +47,6 @@ CREATE TABLE IF NOT EXISTS `Perfiles` (
 
 DROP TABLE IF EXISTS `PermisosAplicacionesUsuario`;
 CREATE TABLE IF NOT EXISTS `PermisosAplicacionesUsuario` (
-  -- pk_id_permiso INT AUTO_INCREMENT NOT NULL,
   fk_id_aplicacion INT NOT NULL, 
   fk_id_usuario INT NOT NULL, 
   guardar_permiso BOOLEAN DEFAULT FALSE,
@@ -62,7 +61,6 @@ CREATE TABLE IF NOT EXISTS `PermisosAplicacionesUsuario` (
 
 DROP TABLE IF EXISTS `PermisosAplicacionPerfil`;
 CREATE TABLE IF NOT EXISTS `PermisosAplicacionPerfil` (
-  -- pk_id_permiso INT AUTO_INCREMENT NOT NULL,
   fk_id_perfil INT NOT NULL, 
   fk_id_aplicacion INT NOT NULL, 
   guardar_permiso BOOLEAN DEFAULT FALSE,
@@ -77,7 +75,6 @@ CREATE TABLE IF NOT EXISTS `PermisosAplicacionPerfil` (
 
 DROP TABLE IF EXISTS `AsignacionesPerfilsUsuario`;
 CREATE TABLE IF NOT EXISTS `AsignacionesPerfilsUsuario` (
-  -- pk_id_asignacion INT AUTO_INCREMENT NOT NULL,
   fk_id_usuario INT NOT NULL, 
   fk_id_perfil INT NOT NULL,
   PRIMARY KEY (`fk_id_usuario`,`fk_id_perfil` ),
@@ -104,26 +101,22 @@ CREATE TABLE IF NOT EXISTS `BitacoraDeEventos` (
 -- -----MODULOS
 INSERT INTO Modulos VALUES ('0000', 'A', 'A', 1),('1000', 'B', 'B', 1),('2000', 'C', 'C', 1);
 -- -----APLICACIONES
-select * from aplicaciones;
 INSERT INTO `aplicaciones` VALUES ('1', '0', 'APP1 A', 'A1', '1'), ('2', '0', 'APP2 A', 'A2', '1');
 INSERT INTO `aplicaciones` VALUES ('1001', '1000', 'APP1 A', 'A1', '1'), ('1002', '1000', 'APP2 B', 'A2', '1');
 INSERT INTO `aplicaciones` VALUES ('2001', '2000', 'APP1 B', 'A1', '1'), ('2002', '2000', 'APP2 C', 'A2', '1');
 -- -----USUARIOS
-INSERT INTO `Usuarios` VALUES ('1', 'admin', 'admin', 'admin', '12345', 'esduardo@gmail.com', '2022-07-02 21:00:48', '1');
-INSERT INTO `Usuarios` VALUES ('2', 'leonel', 'dominguez', 'laionel', '12345', 'laionel@gmail.com', '2022-07-02 21:00:48', '1');
+INSERT INTO `Usuarios` VALUES ('1', 'admin', 'admin', 'admin', 'HO0aGo4nM94=', 'esduardo@gmail.com', '2022-07-02 21:00:48', '1');
+INSERT INTO `Usuarios` VALUES ('2', 'leonel', 'dominguez', 'laionel', 'HO0aGo4nM94=', 'laionel@gmail.com', '2022-07-02 21:00:48', '1');
 -- -----PERFILES
 INSERT INTO Perfiles VALUES ('1', 'Administrador', 'contiene todos los permisos del programa', 1),('2', 'Tester', 'tiene acceso a ciertas aplicaciones', 1);
 -- -----PERMISOS DE APLICACIONES A PERFILES
-select * from PermisosAplicacionPerfil;
 INSERT INTO `PermisosAplicacionPerfil` VALUES ('1', '1001', '1', '1', '1', '1', '1');
 INSERT INTO `PermisosAplicacionPerfil` VALUES ('1', '2001', '1', '1', '1', '1', '1');
 -- -----PERMISOS DE APLICACIONES A USUARIOS
-select * from PermisosAplicacionesUsuario;
 INSERT INTO `PermisosAplicacionesUsuario` VALUES ('1001', '1', '1', '1', '1', '1', '1');
 INSERT INTO `PermisosAplicacionesUsuario` VALUES ('2001', '1', '1', '1', '1', '1', '1');
 INSERT INTO `PermisosAplicacionesUsuario` VALUES ('2001', '2', '1', '1', '1', '1', '1');
 -- -----ASIGNACIÓN DE PERFIL A USUARIO
-select * from AsignacionesPerfilsUsuario;
 INSERT INTO `AsignacionesPerfilsUsuario` VALUES ('1', '1');
 INSERT INTO `AsignacionesPerfilsUsuario` VALUES ('2', '1');
 
