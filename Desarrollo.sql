@@ -1,6 +1,6 @@
-DROP DATABASE  IF EXISTS `InfraestructuraBD`;
-CREATE DATABASE IF NOT EXISTS `InfraestructuraBD`;
-USE `InfraestructuraBD`;
+DROP DATABASE  IF EXISTS `colchoneria`;
+CREATE DATABASE IF NOT EXISTS `colchoneria`;
+USE `colchoneria`;
 
 DROP TABLE IF EXISTS `Modulos`;
 CREATE TABLE IF NOT EXISTS `Modulos` (
@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS `Modulos` (
 );
 
 DROP TABLE IF EXISTS `Aplicaciones`;
+
 CREATE TABLE IF NOT EXISTS `Aplicaciones` (
 	pk_id_aplicacion INT AUTO_INCREMENT NOT NULL,
     fk_id_modulo INT NOT NULL,
@@ -82,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `AsignacionesPerfilsUsuario` (
   FOREIGN KEY (`fk_id_perfil`) REFERENCES `Perfiles` (`pk_id_perfil`)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
-DROP TABLE IF EXISTS `BitacoraDeEventos`;
+DROP TABLE IF EXISTS `tbl_BitacoraDeEventos`;
 CREATE TABLE IF NOT EXISTS `BitacoraDeEventos` (
   pk_id_bitacora INT AUTO_INCREMENT NOT NULL,
   fk_id_usuario INT NOT NULL,
