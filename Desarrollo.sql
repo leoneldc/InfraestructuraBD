@@ -2,8 +2,8 @@ DROP DATABASE  IF EXISTS `colchoneria`;
 CREATE DATABASE IF NOT EXISTS `colchoneria`;
 USE `colchoneria`;
 
-DROP TABLE IF EXISTS `Modulos`;
-CREATE TABLE IF NOT EXISTS `Modulos` (
+DROP TABLE IF EXISTS `tbl_modulos`;
+CREATE TABLE IF NOT EXISTS `tbl_modulos` (
 	pk_id_modulos INT NOT NULL,
     nombre_modulo VARCHAR(50) NOT NULL,
     descripcion_modulo VARCHAR(150) NOT NULL,
@@ -11,9 +11,8 @@ CREATE TABLE IF NOT EXISTS `Modulos` (
     primary key (pk_id_modulos)
 );
 
-DROP TABLE IF EXISTS `Aplicaciones`;
-
-CREATE TABLE IF NOT EXISTS `Aplicaciones` (
+DROP TABLE IF EXISTS `tbl_aplicaciones`;
+CREATE TABLE IF NOT EXISTS `tbl_aplicaciones` (
 	pk_id_aplicacion INT AUTO_INCREMENT NOT NULL,
     fk_id_modulo INT NOT NULL,
     nombre_aplicacion VARCHAR(50) NOT NULL,
@@ -23,8 +22,8 @@ CREATE TABLE IF NOT EXISTS `Aplicaciones` (
     FOREIGN KEY (fk_id_modulo) REFERENCES Modulos(pk_id_modulos)
 );
 
-DROP TABLE IF EXISTS `Usuarios`;
-CREATE TABLE IF NOT EXISTS `Usuarios` (
+DROP TABLE IF EXISTS `tbl_usuarios`;
+CREATE TABLE IF NOT EXISTS `tbl_usuarios` (
   pk_id_usuario INT AUTO_INCREMENT NOT NULL,
   nombre_usuario VARCHAR(50) NOT NULL,
   apellido_usuario VARCHAR(50) NOT NULL,
@@ -37,8 +36,8 @@ CREATE TABLE IF NOT EXISTS `Usuarios` (
 );
 -- AGREGAR UN BOOLEANO PARA VER SI ES USUARIO NORMAL O ADMIN TOTAL
 
-DROP TABLE IF EXISTS `Perfiles`;
-CREATE TABLE IF NOT EXISTS `Perfiles` (
+DROP TABLE IF EXISTS `tbl_perfiles`;
+CREATE TABLE IF NOT EXISTS `tbl_perfiles` (
 	pk_id_perfil INT AUTO_INCREMENT NOT NULL,
     nombre_perfil VARCHAR(50) NOT NULL,
     descripcion_perfil VARCHAR(150) NOT NULL,
@@ -46,8 +45,8 @@ CREATE TABLE IF NOT EXISTS `Perfiles` (
     primary key (pk_id_perfil)
 );
 
-DROP TABLE IF EXISTS `PermisosAplicacionesUsuario`;
-CREATE TABLE IF NOT EXISTS `PermisosAplicacionesUsuario` (
+DROP TABLE IF EXISTS `tbl_permisosAplicacionesUsuario`;
+CREATE TABLE IF NOT EXISTS `tbl_permisosAplicacionesUsuario` (
   fk_id_aplicacion INT NOT NULL, 
   fk_id_usuario INT NOT NULL, 
   guardar_permiso BOOLEAN DEFAULT FALSE,
@@ -60,8 +59,8 @@ CREATE TABLE IF NOT EXISTS `PermisosAplicacionesUsuario` (
   FOREIGN KEY (`fk_id_usuario`) REFERENCES `Usuarios` (`pk_id_usuario`)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
-DROP TABLE IF EXISTS `PermisosAplicacionPerfil`;
-CREATE TABLE IF NOT EXISTS `PermisosAplicacionPerfil` (
+DROP TABLE IF EXISTS `tbl_permisosAplicacionPerfil`;
+CREATE TABLE IF NOT EXISTS `tbl_permisosAplicacionPerfil` (
   fk_id_perfil INT NOT NULL, 
   fk_id_aplicacion INT NOT NULL, 
   guardar_permiso BOOLEAN DEFAULT FALSE,
@@ -74,8 +73,8 @@ CREATE TABLE IF NOT EXISTS `PermisosAplicacionPerfil` (
   FOREIGN KEY (`fk_id_perfil`) REFERENCES `Perfiles` (`pk_id_perfil`)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
-DROP TABLE IF EXISTS `AsignacionesPerfilsUsuario`;
-CREATE TABLE IF NOT EXISTS `AsignacionesPerfilsUsuario` (
+DROP TABLE IF EXISTS `tbl_asignacionesPerfilsUsuario`;
+CREATE TABLE IF NOT EXISTS `tbl_asignacionesPerfilsUsuario` (
   fk_id_usuario INT NOT NULL, 
   fk_id_perfil INT NOT NULL,
   PRIMARY KEY (`fk_id_usuario`,`fk_id_perfil` ),
@@ -83,8 +82,8 @@ CREATE TABLE IF NOT EXISTS `AsignacionesPerfilsUsuario` (
   FOREIGN KEY (`fk_id_perfil`) REFERENCES `Perfiles` (`pk_id_perfil`)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
-DROP TABLE IF EXISTS `tbl_BitacoraDeEventos`;
-CREATE TABLE IF NOT EXISTS `BitacoraDeEventos` (
+DROP TABLE IF EXISTS `tbl_bitacoraDeEventos`;
+CREATE TABLE IF NOT EXISTS `tbl_bitacoraDeEventos` (
   pk_id_bitacora INT AUTO_INCREMENT NOT NULL,
   fk_id_usuario INT NOT NULL,
   fk_id_aplicacion INT NOT NULL,
@@ -98,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `BitacoraDeEventos` (
   FOREIGN KEY (`fk_id_aplicacion`) REFERENCES `Aplicaciones` (`pk_id_aplicacion`)
 )ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
-
+/*
 -- -----MODULOS
 INSERT INTO Modulos VALUES ('0000', 'A', 'A', 1),('1000', 'B', 'B', 1),('2000', 'C', 'C', 1);
 -- -----APLICACIONES
@@ -120,4 +119,4 @@ INSERT INTO `PermisosAplicacionesUsuario` VALUES ('2001', '2', '1', '1', '1', '1
 -- -----ASIGNACIÓN DE PERFIL A USUARIO
 INSERT INTO `AsignacionesPerfilsUsuario` VALUES ('1', '1');
 INSERT INTO `AsignacionesPerfilsUsuario` VALUES ('2', '1');
-
+*/
