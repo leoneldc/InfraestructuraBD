@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `tbl_aplicaciones` (
     descripcion_aplicacion VARCHAR(150) NOT NULL,
     estado_aplicacion TINYINT DEFAULT 0,
     primary key (pk_id_aplicacion),
-    FOREIGN KEY (fk_id_modulo) REFERENCES Modulos(pk_id_modulos)
+    FOREIGN KEY (fk_id_modulo) REFERENCES tbl_modulos(pk_id_modulos)
 );
 
 DROP TABLE IF EXISTS `tbl_usuarios`;
@@ -55,8 +55,8 @@ CREATE TABLE IF NOT EXISTS `tbl_permisosAplicacionesUsuario` (
   buscar_permiso BOOLEAN DEFAULT FALSE,
   imprimir_permiso BOOLEAN DEFAULT FALSE,
   PRIMARY KEY (`fk_id_aplicacion`,`fk_id_usuario`),
-  FOREIGN KEY (`fk_id_aplicacion`) REFERENCES `Aplicaciones` (`pk_id_aplicacion`),
-  FOREIGN KEY (`fk_id_usuario`) REFERENCES `Usuarios` (`pk_id_usuario`)
+  FOREIGN KEY (`fk_id_aplicacion`) REFERENCES `tbl_aplicaciones` (`pk_id_aplicacion`),
+  FOREIGN KEY (`fk_id_usuario`) REFERENCES `tbl_usuarios` (`pk_id_usuario`)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 DROP TABLE IF EXISTS `tbl_permisosAplicacionPerfil`;
@@ -69,8 +69,8 @@ CREATE TABLE IF NOT EXISTS `tbl_permisosAplicacionPerfil` (
   buscar_permiso BOOLEAN DEFAULT FALSE,
   imprimir_permiso BOOLEAN DEFAULT FALSE,
   PRIMARY KEY (`fk_id_perfil`,`fk_id_aplicacion`),
-  FOREIGN KEY (`fk_id_aplicacion`) REFERENCES `Aplicaciones` (`pk_id_aplicacion`),
-  FOREIGN KEY (`fk_id_perfil`) REFERENCES `Perfiles` (`pk_id_perfil`)
+  FOREIGN KEY (`fk_id_aplicacion`) REFERENCES `tbl_aplicaciones` (`pk_id_aplicacion`),
+  FOREIGN KEY (`fk_id_perfil`) REFERENCES `tbl_perfiles` (`pk_id_perfil`)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 DROP TABLE IF EXISTS `tbl_asignacionesPerfilsUsuario`;
@@ -78,8 +78,8 @@ CREATE TABLE IF NOT EXISTS `tbl_asignacionesPerfilsUsuario` (
   fk_id_usuario INT NOT NULL, 
   fk_id_perfil INT NOT NULL,
   PRIMARY KEY (`fk_id_usuario`,`fk_id_perfil` ),
-  FOREIGN KEY (`fk_id_usuario`) REFERENCES `Usuarios` (`pk_id_usuario`),
-  FOREIGN KEY (`fk_id_perfil`) REFERENCES `Perfiles` (`pk_id_perfil`)
+  FOREIGN KEY (`fk_id_usuario`) REFERENCES `tbl_usuarios` (`pk_id_usuario`),
+  FOREIGN KEY (`fk_id_perfil`) REFERENCES `tbl_perfiles` (`pk_id_perfil`)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 DROP TABLE IF EXISTS `tbl_bitacoraDeEventos`;
@@ -93,8 +93,8 @@ CREATE TABLE IF NOT EXISTS `tbl_bitacoraDeEventos` (
   ip_bitacora VARCHAR(25) NOT NULL,
   accion_bitacora VARCHAR(10) NOT NULL,
   PRIMARY KEY (`pk_id_bitacora`),
-  FOREIGN KEY (`fk_id_usuario`) REFERENCES `Usuarios` (`pk_id_usuario`),
-  FOREIGN KEY (`fk_id_aplicacion`) REFERENCES `Aplicaciones` (`pk_id_aplicacion`)
+  FOREIGN KEY (`fk_id_usuario`) REFERENCES `tbl_usuarios` (`pk_id_usuario`),
+  FOREIGN KEY (`fk_id_aplicacion`) REFERENCES `tbl_aplicaciones` (`pk_id_aplicacion`)
 )ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 /*
