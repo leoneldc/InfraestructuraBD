@@ -1,3 +1,0 @@
-DROP DATABASE  IF EXISTS `Produccion`;
-CREATE DATABASE IF NOT EXISTS `Produccion`;
-USE `Produccion`;
