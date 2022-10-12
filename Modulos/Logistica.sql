@@ -1,6 +1,4 @@
-create database bd_logistica;
-drop database bd_logistica;
-use bd_logistica;
+USE `colchoneria`;
 
 create table tbl_marca (
 pk_codigo_marca int not null primary key auto_increment,
