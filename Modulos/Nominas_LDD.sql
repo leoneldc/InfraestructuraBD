@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `tbl_departamentos` (
     descripcion_departamento  VARCHAR(75) NOT NULL,
     estado_departamento TINYINT DEFAULT 0,
     primary key (`pk_id_departamento`)
-);
+)ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 DROP TABLE IF EXISTS `tbl_puestosdetrabajo`; -- LEONEL DOMINGUEZ
 CREATE TABLE IF NOT EXISTS `tbl_puestosdetrabajo` (
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `tbl_puestosdetrabajo` (
     nombre_puesto VARCHAR(25) NOT NULL,
     estado_puesto  TINYINT DEFAULT 0,
     primary key (`pk_id_puesto`)
-);
+)ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 DROP TABLE IF EXISTS `tbl_contrato`;
 CREATE TABLE IF NOT EXISTS `tbl_contrato` (
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `tbl_contrato` (
     tipoPago_contrato TINYINT NOT NULL,
     estado_contrato TINYINT DEFAULT 0,
     primary key (`pk_id_contrato`)
-);
+)ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 DROP TABLE IF EXISTS `tbl_prestacionesydeducciones`;
 CREATE TABLE IF NOT EXISTS `tbl_prestacionesydeducciones` (
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `tbl_prestacionesydeducciones` (
     valorFijo_prestdeduc FLOAT DEFAULT 0,
     estado_prestdeduc TINYINT DEFAULT 0,
     primary key (`pk_id_prestdeduc`)
-);
+)ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 DROP TABLE IF EXISTS `tbl_trabajador`;-- LUIS LEE
 CREATE TABLE IF NOT EXISTS `tbl_trabajador` (
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `tbl_trabajador` (
     telefono_trabajador INT(8) NOT NULL,
     estado_trabajador TINYINT DEFAULT 0,
     primary key (`pk_id_trabajador`)
-);
+)ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 DROP TABLE IF EXISTS `tbl_horasextras`;
 CREATE TABLE IF NOT EXISTS `tbl_horasextras` (
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `tbl_horasextras` (
     cantidadHorasr_horasextras FLOAT NOT NULL,
     primary key (`pk_id_horasextras`),
     FOREIGN KEY (`fk_id_trabajador`) REFERENCES `tbl_trabajador` (`pk_id_trabajador`)
-);
+)ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 DROP TABLE IF EXISTS `tbl_controlfaltas`;
 CREATE TABLE IF NOT EXISTS `tbl_controlfaltas` (
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `tbl_controlfaltas` (
     justificacion_falta VARCHAR(50),
     primary key (`pk_id_faltas`),
     FOREIGN KEY (`fk_clave_empleado`) REFERENCES `tbl_trabajador` (`pk_id_trabajador`)
-);
+)ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 DROP TABLE IF EXISTS `tbl_asignacionpuestodepartamento`;
 CREATE TABLE IF NOT EXISTS `tbl_asignacionpuestodepartamento` (
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `tbl_asignacionpuestodepartamento` (
     primary key (`fk_id_puesto`, `fk_id_departamento`),
 	FOREIGN KEY (`fk_id_puesto`) REFERENCES `tbl_puestosdetrabajo` (`pk_id_puesto`),
     FOREIGN KEY (`fk_id_departamento`) REFERENCES `tbl_departamentos` (`pk_id_departamento`)
-);
+)ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 DROP TABLE IF EXISTS `tbl_asignacionpuestotrabajador`;
 CREATE TABLE IF NOT EXISTS `tbl_asignacionpuestotrabajador` (
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `tbl_asignacionpuestotrabajador` (
     primary key (`fk_id_puesto`, `fk_id_trabajador`),
 	FOREIGN KEY (`fk_id_puesto`) REFERENCES `tbl_puestosdetrabajo` (`pk_id_puesto`),
     FOREIGN KEY (`fk_id_trabajador`) REFERENCES `tbl_trabajador` (`pk_id_trabajador`)
-);
+)ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 DROP TABLE IF EXISTS `tbl_asignacioncontratoprestdeduc`;
 CREATE TABLE IF NOT EXISTS `tbl_asignacioncontratoprestdeduc` (
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `tbl_asignacioncontratoprestdeduc` (
     primary key (`fk_id_contrato`, `fk_id_prestdeduc`),
 	FOREIGN KEY (`fk_id_contrato`) REFERENCES `tbl_contrato` (`pk_id_contrato`),
     FOREIGN KEY (`fk_id_prestdeduc`) REFERENCES `tbl_prestacionesydeducciones` (`pk_id_prestdeduc`)
-);
+)ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 DROP TABLE IF EXISTS `tbl_asignacioncontratotrabajador`;
 CREATE TABLE IF NOT EXISTS `tbl_asignacioncontratotrabajador` (
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `tbl_asignacioncontratotrabajador` (
     primary key (`fk_id_contrato`, `fk_id_trabajador`),
 	FOREIGN KEY (`fk_id_contrato`) REFERENCES `tbl_contrato` (`pk_id_contrato`),
     FOREIGN KEY (`fk_id_trabajador`) REFERENCES `tbl_trabajador` (`pk_id_trabajador`)
-);
+)ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 DROP TABLE IF EXISTS `tbl_percydeducindividuales`;
 CREATE TABLE IF NOT EXISTS `tbl_percydeducindividuales` (
@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `tbl_percydeducindividuales` (
     primary key (`pk_id_prestdeducext`),
     FOREIGN KEY (`fk_id_trabajador`) REFERENCES `tbl_trabajador` (`pk_id_trabajador`),
     FOREIGN KEY (`fk_id_prestdeduc`) REFERENCES `tbl_prestacionesydeducciones` (`pk_id_prestdeduc`)
-);
+)ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 DROP TABLE IF EXISTS `tbl_nominas`;
 CREATE TABLE IF NOT EXISTS `tbl_nominas` (
@@ -133,5 +133,5 @@ CREATE TABLE IF NOT EXISTS `tbl_nominas` (
     liquidez_nomina FLOAT NOT NULL,
     primary key (`pk_id_correlativo`),
     FOREIGN KEY (`fk_id_trabajador`) REFERENCES `tbl_trabajador` (`pk_id_trabajador`)
-);
+)ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
