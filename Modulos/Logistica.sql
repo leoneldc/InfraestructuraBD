@@ -6,7 +6,6 @@ create table tbl_marca (
 pk_codigo_marca int not null primary key auto_increment,
 nombre_marca varchar(100)
 );
-select * from tbl_marca;
 
 create table tbl_linea (
 pk_codigo_linea int not null primary key auto_increment,
@@ -18,16 +17,6 @@ pk_codigo_bodega int not null primary key auto_increment,
 nombre_bodega varchar(100),
 estatus_bodega varchar(1)
 );
-
-create table tbl_exisbodega (
-fk_codigo_bodega int not null,
-fk_codigo_producto int not null,
-existencia float (100,2),
-foreign key (fk_codigo_bodega) references tbl_bodega (pk_codigo_bodega),
-foreign key (fk_codigo_producto) references tbl_producto (pk_codigo_producto),
-primary key (fk_codigo_bodega, fk_codigo_producto)
-);
-drop table tbl_exisbodega ;
 
 create table tbl_producto(
 pk_codigo_producto int not null primary key auto_increment,
@@ -42,6 +31,15 @@ precio_venta int,
 estatus_producto varchar(1),
 foreign key (fk_marca) references tbl_marca (pk_codigo_marca),
 foreign key (fk_linea_inventario) references tbl_linea (pk_codigo_linea)
+);
+
+create table tbl_exisbodega (
+fk_codigo_bodega int not null,
+fk_codigo_producto int not null,
+existencia float (100,2),
+foreign key (fk_codigo_bodega) references tbl_bodega (pk_codigo_bodega),
+foreign key (fk_codigo_producto) references tbl_producto (pk_codigo_producto),
+primary key (fk_codigo_bodega, fk_codigo_producto)
 );
 
 create table tbl_movimientos(
@@ -99,6 +97,28 @@ foreign key (fk_conductor) references tbl_conductor (pk_conductor),
 foreign key (fk_lote) references tbl_lote (pk_codigo_lote),
 foreign key (fk_bodega) references tbl_bodega (pk_codigo_bodega)
 );
-drop table tbl_envio;
+
+create table tbl_ventap (
+pk_venta int not null primary key auto_increment,
+fk_producto int not null,
+cantidad int,
+foreign key (fk_producto) references tbl_producto (pk_codigo_producto)
+);
+
+create table tbl_comprap (
+pk_compra int not null primary key auto_increment,
+fk_producto int not null,
+cantidad int,
+foreign key (fk_producto) references tbl_producto (pk_codigo_producto)
+);
+
+insert into tbl_marca(nombre_marca) values ("APPLE");
+insert into tbl_marca(nombre_marca) values ("ANDROID");
+insert into tbl_marca(nombre_marca) values ("WINDOWS");
+
+insert into tbl_linea(nombre_linea) values ("TV");
+insert into tbl_linea(nombre_linea) values ("SMARTHPHONE");
+insert into tbl_linea(nombre_linea) values ("COMPUTADORA");
+
 
 -- agregar (listo)multi bodegas, (triggers falta)/(tabla listo)movimientos(salidas, entradas), (listo)lineas, marcas

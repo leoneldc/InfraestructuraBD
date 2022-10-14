@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 CREATE DATABASE IF NOT EXISTS `colchoneria`;
 USE `colchoneria`;
 
@@ -289,3 +290,6 @@ Saldo_CuentaCorriente float,
 primary key (PkId_CuentaCorriente),
 foreign key (FkId_Cliente) references tblCliente(PkId_Cliente)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+=======
+USE `colchoneria`;
+>>>>>>> a257c89b32cae4c48478569fc69e3435d7cc83f0

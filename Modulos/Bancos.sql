@@ -87,3 +87,4 @@ CREATE TABLE IF NOT EXISTS `Tbl_Disponibilidad` (
   PRIMARY KEY (`Pk_idDispo`),
 FOREIGN KEY (`cuentaDispo`) REFERENCES `Tbl_Cuentas` (`Pk_idCuentas`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
