@@ -53,9 +53,9 @@ sincontrol_tipocuenta varchar(30) not null,
 afecta_tipocuenta varchar(30) not null,
 noafecta_tipocuenta varchar(30) not null,
 estatus varchar(30) not null,
-pkid_presupuesto int auto_increment,
-primary key(codigo_tipocuenta, pkid_presupuesto),
-FOREIGN KEY (`fk_pkid_presupuesto`) REFERENCES `tblpresupuesto` (`pkid_presupuesto`)
+fkid_presupuesto int not null,
+primary key(pkid_tipocuenta, fkid_presupuesto),
+FOREIGN KEY (`fkid_presupuesto`) REFERENCES `tbl_presupuesto` (`pk_Presupuesto`)
 )ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 DROP TABLE IF EXISTS `tbl_CierreContable`;

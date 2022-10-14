@@ -723,7 +723,7 @@ CREATE TABLE IF NOT EXISTS `Tbl_tiposMov` (
   PRIMARY KEY (`Pk_idTipoMov`)
   )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `Tbl_Movimientos` (
+CREATE TABLE IF NOT EXISTS `Tbl_Movimientos_bancos` (
   `Pk_idMovimientos` INT NOT NULL,
   `tipo_mov` INT NULL,
   `fecha_reg` DATE NULL,
@@ -753,7 +753,7 @@ CREATE TABLE IF NOT EXISTS `Tbl_Conciliacion` (
   `descripcion_cnl` VARCHAR(45) NULL,
   `movimientos_cnl` INT NULL,
   PRIMARY KEY (`Pk_idConciliacion`),
-    FOREIGN KEY (`movimientos_cnl`) REFERENCES `Tbl_Movimientos` (`Pk_idMovimientos`)
+    FOREIGN KEY (`movimientos_cnl`) REFERENCES `Tbl_Movimientos_bancos` (`Pk_idMovimientos`)
 	)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `Tbl_Disponibilidad` (
@@ -819,9 +819,9 @@ sincontrol_tipocuenta varchar(30) not null,
 afecta_tipocuenta varchar(30) not null,
 noafecta_tipocuenta varchar(30) not null,
 estatus varchar(30) not null,
-pkid_presupuesto int auto_increment,
-primary key(codigo_tipocuenta, pkid_presupuesto),
-FOREIGN KEY (`fk_pkid_presupuesto`) REFERENCES `tblpresupuesto` (`pkid_presupuesto`)
+fkid_presupuesto int not null,
+primary key(pkid_tipocuenta, fkid_presupuesto),
+FOREIGN KEY (`fkid_presupuesto`) REFERENCES `tbl_presupuesto` (`pk_Presupuesto`)
 )ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 DROP TABLE IF EXISTS `tbl_CierreContable`;
