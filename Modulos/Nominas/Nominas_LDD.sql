@@ -1,9 +1,7 @@
-USE `colchoneria`;
-
 DROP TABLE IF EXISTS `tbl_departamentos`;-- KEVIN 
 CREATE TABLE IF NOT EXISTS `tbl_departamentos` (
 	pk_id_departamento  INT AUTO_INCREMENT NOT NULL,
-    nombre_departamento VARCHAR(25) NOT NULL,
+    nombre_departamento VARCHAR(40) NOT NULL,
     descripcion_departamento  VARCHAR(75) NOT NULL,
     estado_departamento TINYINT DEFAULT 0,
     primary key (`pk_id_departamento`)
@@ -12,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `tbl_departamentos` (
 DROP TABLE IF EXISTS `tbl_puestosdetrabajo`; -- LEONEL DOMINGUEZ
 CREATE TABLE IF NOT EXISTS `tbl_puestosdetrabajo` (
 	pk_id_puesto INT AUTO_INCREMENT NOT NULL,
-    nombre_puesto VARCHAR(25) NOT NULL,
+    nombre_puesto VARCHAR(50) NOT NULL,
     estado_puesto  TINYINT DEFAULT 0,
     primary key (`pk_id_puesto`)
 )ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
@@ -31,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `tbl_contrato` (
 DROP TABLE IF EXISTS `tbl_prestacionesydeducciones`;
 CREATE TABLE IF NOT EXISTS `tbl_prestacionesydeducciones` (
 	pk_id_prestdeduc INT AUTO_INCREMENT NOT NULL,
-    nombre_prestdeduc VARCHAR(25) NOT NULL,
+    nombre_prestdeduc VARCHAR(40) NOT NULL,
     tipo_prestdeduc  TINYINT NOT NULL,
     porcentaje_prestdeduc FLOAT DEFAULT 0,
     valorFijo_prestdeduc FLOAT DEFAULT 0,
@@ -53,11 +51,10 @@ CREATE TABLE IF NOT EXISTS `tbl_trabajador` (
 
 DROP TABLE IF EXISTS `tbl_horasextras`;
 CREATE TABLE IF NOT EXISTS `tbl_horasextras` (
-	pk_id_horasextras INT AUTO_INCREMENT NOT NULL,
 	fk_id_trabajador  INT NOT NULL,
     fecha_horasextras DATE NOT NULL,
     cantidadHorasr_horasextras FLOAT NOT NULL,
-    primary key (`pk_id_horasextras`),
+    primary key (`fk_id_trabajador`,`fecha_horasextras`),
     FOREIGN KEY (`fk_id_trabajador`) REFERENCES `tbl_trabajador` (`pk_id_trabajador`)
 )ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
@@ -67,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `tbl_controlfaltas` (
     fk_clave_empleado INT NOT NULL, 
     fecha_falta DATE NOT NULL,
     mes_falta INT NOT NULL,
-    justificacion_falta VARCHAR(50),
+    justificacion_falta VARCHAR(100),
     primary key (`pk_id_faltas`),
     FOREIGN KEY (`fk_clave_empleado`) REFERENCES `tbl_trabajador` (`pk_id_trabajador`)
 )ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
@@ -120,18 +117,25 @@ CREATE TABLE IF NOT EXISTS `tbl_percydeducindividuales` (
     FOREIGN KEY (`fk_id_prestdeduc`) REFERENCES `tbl_prestacionesydeducciones` (`pk_id_prestdeduc`)
 )ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
-DROP TABLE IF EXISTS `tbl_nominas`;
-CREATE TABLE IF NOT EXISTS `tbl_nominas` (
-	pk_id_correlativo INT AUTO_INCREMENT NOT NULL,
-	fk_id_trabajador  INT NOT NULL,
-    fechaGenerado_nomina DATE NOT NULL,
+DROP TABLE IF EXISTS `tbl_encabezadoNominas`;
+CREATE TABLE IF NOT EXISTS `tbl_encabezadoNominas` (
+	pk_id_nomina INT NOT NULL,
+    fechaPago_nomina DATE NOT NULL,
+    tipoPago_nomina TINYINT NOT NULL,
     mesPagado_nomina INT NOT NULL,
+    total_nomina INT DEFAULT 0,
+    primary key (`pk_id_nomina`)
+)ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
+
+DROP TABLE IF EXISTS `tbl_detalleNominas`;
+CREATE TABLE IF NOT EXISTS `tbl_detalleNominas` (
+	pk_id_nomina INT NOT NULL,
+    fk_id_trabajador INT NOT NULL,
     salario_nomina FLOAT NOT NULL,
     totalHorasExtras_nomina FLOAT NOT NULL,
     totalPercepciones_nomina FLOAT DEFAULT 0,
     totalDeducciones_nomina FLOAT DEFAULT 0,
     liquidez_nomina FLOAT NOT NULL,
-    primary key (`pk_id_correlativo`),
+    primary key (`pk_id_nomina`,`fk_id_trabajador`),
     FOREIGN KEY (`fk_id_trabajador`) REFERENCES `tbl_trabajador` (`pk_id_trabajador`)
 )ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
-

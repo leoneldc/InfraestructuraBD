@@ -23,7 +23,14 @@ INSERT INTO `tbl_usuarios` VALUES
 
 -- -----PERFILES
 INSERT INTO `tbl_perfiles` VALUES
-('1', 'ADMINISTRADOR', 'contiene todos los permisos del programa', 1);
+('1', 'ADMINISTRADOR', 'contiene todos los permisos del programa', 1),
+('2', 'SEGURIDAD', 'contiene todos los permisos de seguridad', 1),
+('3', 'LOGISTICA', 'contiene todos los permisos de logistica', 1),
+('4', 'COMPRAS Y VENTAS', 'contiene todos los permisos de compras y ventas', 1),
+('5', 'PRODUCCIÓN', 'contiene todos los permisos de producción', 1),
+('6', 'NOMINAS', 'contiene todos los permisos de nominas', 1),
+('7', 'BANCOS', 'contiene todos los permisos de bancos', 1),
+('8', 'CONTABILIDAD', 'contiene todos los permisos de contabilidad', 1);
 
 -- -----ASIGNACIÓNES MODULO A APLICACION
 INSERT INTO `tbl_asignacionmoduloaplicacion` VALUES
@@ -43,7 +50,14 @@ INSERT INTO `tbl_permisosAplicacionPerfil` VALUES
 ('1', '5000', '1', '1', '1', '1', '1'),
 ('1', '6000', '1', '1', '1', '1', '1'),
 ('1', '7000', '1', '1', '1', '1', '1'),
-('1', '8000', '1', '1', '1', '1', '1');
+('1', '8000', '1', '1', '1', '1', '1'),
+('2', '1000', '1', '1', '1', '1', '1'),
+('3', '2000', '1', '1', '1', '1', '1'),
+('4', '3000', '1', '1', '1', '1', '1'),
+('5', '5000', '1', '1', '1', '1', '1'),
+('6', '6000', '1', '1', '1', '1', '1'),
+('7', '7000', '1', '1', '1', '1', '1'),
+('8', '8000', '1', '1', '1', '1', '1');
 
 -- -----ASIGNACIÓN DE PERFIL A USUARIO
 INSERT INTO `tbl_asignacionesPerfilsUsuario` VALUES
