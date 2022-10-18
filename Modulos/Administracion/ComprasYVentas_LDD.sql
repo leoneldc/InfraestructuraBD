@@ -1,6 +1,4 @@
-create database Modulo_comprasBD;
-use Modulo_comprasBD;
-
+USE `colchoneria`;
 /*-----Jason Ortega 0901-19-22658--------*/
 create table tblBodega(
 PkId_Bodega int not null,
@@ -8,7 +6,6 @@ Direccion_Bodega varchar(30) not null,
 Telefono_Bodega varchar(15) not null,
 primary key(PkId_Bodega)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 /*George Mayén 0901-19-11383*/
 create table tblClientes(

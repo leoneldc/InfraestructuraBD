@@ -1,5 +1,4 @@
 /*BASE DE DATOS COLCHONERÍA*/
-DROP DATABASE  IF EXISTS `colchoneria`;
 CREATE DATABASE IF NOT EXISTS `colchoneria`;
 USE `colchoneria`;
 /*SEGURIDAD*/
@@ -248,294 +247,403 @@ foreign key (fk_producto) references tbl_producto (pk_codigo_producto)
 )ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 /*COMPRASYVENTAS*/
+create table tblBodega(
+PkId_Bodega int not null,
+Direccion_Bodega varchar(30) not null,
+Telefono_Bodega varchar(15) not null,
+primary key(PkId_Bodega)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*George Mayén 0901-19-11383*/
+create table tblClientes(
+PkId_Clientes int not null,
+Dpi_Clientes varchar(20),
+Nit_Clientes varchar(20),
+Nombre_Clientes varchar(20),
+Domicilio_Clientes varchar(50),
+Telefono_Cliente varchar(15),
+Correo_Cliente varchar(15),
+primary key(PkId_Clientes)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*George Mayén 0901-19-11383*/
 create table tblProveedores(
-PkId_Proveedores int auto_increment not null,
+PkId_Proveedores int not null,
 Nombre_Proveedores varchar(30) not null,
-Dpi_Proveedores varchar(20) not null,
-Telefono_Proveedores varchar(12) not null,
 Nit_Proveedores varchar(20) not null,
-Domicilio_PersonalBodega varchar(30) not null,
-CorreoElectronico_PersonalBodega varchar(30),
-CodigoPostal_Proveedores varchar(6) not null,
+Telefono_Proveedores varchar(12) not null,
+Domicilio_Proveedores varchar(30) not null,
+Correo_Proveedores varchar(20),
+RubroGiro_Proveedores varchar(20),
 primary key(PkId_Proveedores)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*-----Jason Ortega, George Mayén--------*/
+/*George Mayén 0901-19-11383*/
+create table tblEmpleados(
+PkId_Empleados int not null,
+NombreCompleto_Empleados varchar(50),
+Telefono_Empleados varchar(15),
+Puesto_Empleados varchar(15),
+Direccion_Empleados varchar(50),
+Correo_Empleados varchar(20),
+primary key(PkId_Empleados)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*-----Jason Ortega 0901-19-22658--------*/
+create table tblSucursal(
+PkId_Sucursal int not null,
+primary key(PkId_Sucursal)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*-----Jason Ortega 0901-19-22658--------*/
+create table tblSerie(
+PkId_Serie int not null,
+primary key(PkId_Serie)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*-----Jason Ortega 0901-19-22658--------*/
+create table tblCertificacionFacturacion(
+PkId_CertificacionFacturacion int not null,
+primary key(PkId_CertificacionFacturacion)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*-----Jason Ortega 0901-19-22658--------*/
 create table tblProducto(
-PkId_Producto int auto_increment not null,
+PkId_Producto int not null,
 Nombre_Producto varchar(30) not null,
 Descripcion_Producto varchar(50) not null,
+FkId_Bodega int not null,
 FkId_Proveedores int not null,
 PrecioUnidad_Producto float not null,
-UnidadExistencias_Producto int not null,
 primary key(PkId_Producto),
-foreign key(FkId_Proveedores) references tblProveedores(PkId_Proveedores)
+foreign key(FkId_Proveedores) references tblProveedores(PkId_Proveedores),
+foreign key(FkId_Bodega) references tblBodega(PkId_Bodega)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Cristian Jocol 0901-19-17747*/
+create table tblComprasEncabezado(
+PkId_ComprasEncabezado int not null,
+FkId_Sucursal int,
+FkId_Serie int,
+FkId_Proveedores int  not null,
+FechaCompra_ComprasEncabezado date,
+FechaVencimiento_ComprasEncabezado date,
+Total_ComprasEncabezado float not null,
+primary key (PkId_ComprasEncabezado),
+foreign key (FkId_Proveedores) references tblProveedores(PkId_Proveedores),
+foreign key (FkId_Sucursal) references tblSucursal(PkId_Sucursal),
+foreign key (FkId_Serie) references tblSerie(PkId_Serie)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*George Mayén 0901-19-11383*/
+create table tblEncabezadoPedido(
+PkId_EncabezadoPedido int not null,
+FechaEntrega_EncabezadoPedido date,
+EstatusOrdenCompra_EncabezadoPedido tinyint,
+primary key(PkId_EncabezadoPedido)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*-----Jason Ortega 0901-19-22658--------*/
-create table tblPersonalBodega(
-PkId_PersonalBodega int auto_increment not null,
-Nombre_PersonalBodega varchar(30) not null,
-Dpi_PersonalBodega varchar(20) not null,
-Puesto_PersonalBodega varchar(20) not null,
-Telefono_PersonalBodega varchar(12) not null,
-Salario_PersonalBodega float not null,
-Nit_PersonalBodega varchar(20) not null,
-Domicilio_PersonalBodega varchar(30) not null,
-CorreoElectronico_PersonalBodega varchar(30),
-primary key(PkId_PersonalBodega)
+create table tblPagoProveedores(
+PkId_PagoProveedores int not null,
+FkId_ComprasEncabezado int not null,
+TipoPago_PagoProveedores varchar(15) not null,
+Total_PagoProveedores float not null,
+primary key(PkId_PagoProveedores),
+foreign key (FkId_ComprasEncabezado) references tblComprasEncabezado(PkId_ComprasEncabezado)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Cristian Jocol 0901-19-17747*/
+create table tblVentasEncabezado(
+PkId_VentasEncabezado int not null,
+FkId_Sucursal int not null,
+FkId_Serie int not null,
+/*FkId_Asociacion int,*/
+FechaVenta_VentasEncabezado date,
+FechaVencimiento_VentasEncabezado date, 
+Total_VentasEncabezado int,
+primary key (PkId_VentasEncabezado),
+foreign key (FkId_Sucursal) references tblSucursal(PkId_Sucursal),
+foreign key (FkId_Serie) references tblSerie(PkId_Serie)
+/*foreign key (FkId_Asociacion) references tblAsociacion(PkId_Asociacion)*/
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Cristian Jocol 0901-19-17747*/
+create table tblDetalleVenta(
+PkId_DetalleVenta int not null,
+FkId_Producto int not null,
+FkId_Sucursal int not null,
+FkId_Serie int not null,
+FkId_EncabezadoPedido int not null,
+PrecioProducto_DetalleVenta float not null,
+Cantidad_DetalleVenta int, 
+Costo_DetalleVenta float not null,
+Total_DetalleVenta int, 
+FkId_CertificacionFacturacion int,
+primary key (PkId_DetalleVenta),
+foreign key (FkId_Producto) references tblProducto(PkId_Producto),
+foreign key (FkId_Sucursal) references tblSucursal(PkId_Sucursal),
+foreign key (FkId_Serie) references tblSerie(PkId_Serie),
+foreign key (FkId_EncabezadoPedido) references tblEncabezadoPedido(PkId_EncabezadoPedido),
+foreign key (FkId_CertificacionFacturacion) references tblCertificacionFacturacion(PkId_CertificacionFacturacion)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*George Mayén 0901-19-11383*/
+create table tblPagoClientes(
+PkId_PagoClientes int not null,
+FkId_VentasEncabezado int not null,
+TipoPago_PagoClientes varchar(15),
+Total_PagoClientes float,
+primary key(PkId_PagoClientes),
+foreign key (FkId_VentasEncabezado) references tblVentasEncabezado(PkId_VentasEncabezado)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Cristian Jocol 0901-19-17747*/
+create table tblFacturaClientes(
+PkId_FacturaClientes int not null, 
+FkId_VentasEncabezado int not null,
+Nit_FacturaCliente varchar(20),
+FechaEmision_FacturaClientes date not null,
+/*FkId_Asociacion int,*/
+Total_FacturaCliente float,
+primary key (PkId_FacturaClientes),
+foreign key (FkId_VentasEncabezado) references tblVentasEncabezado(PkId_VentasEncabezado)
+/*foreign key (FkId_Asociacion) references tblAsociacion(PkId_Asociacion) */
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Cristian Jocol 0901-19-17747*/
+create table tblDetalleFacturaClientes(
+PkId_FacturaClientes int  not null,
+FkId_Producto int,
+Cantidad int,
+IvaPorCobrar_DetalleFacturaCliente float,
+subtotal_DetalleFacturaCliente float not null,
+foreign key (PkId_FacturaClientes) references tblFacturaClientes(PkId_FacturaClientes),
+foreign key (FkId_Producto) references tblProducto(PkId_Producto)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*George Mayén 0901-19-11383*/
+create table tblVendedores(
+PkId_Vendedores int not null,
+FkId_Empleados int not null,
+FkId_FacturaClientes int not null,
+CantidadVentas_Vendedores int,
+primary key(PkId_Vendedores),
+foreign key (FkId_Empleados) references tblEmpleados(PkId_Empleados),
+foreign key (FkId_FacturaClientes) references tblFacturaClientes(PkId_FacturaClientes)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Cristian Jocol 0901-19-17747*/
+create table tblReciboClientes(
+PkId_ReciboClientes int auto_increment not null,
+FkId_VentasEncabezado int not null,
+Nit_ReciboClientes varchar(20) not null,
+fechaEmision_ReciboClientes date not null,
+primary key (PkId_ReciboClientes),
+foreign key (FkId_VentasEncabezado) references tblVentasEncabezado(PkId_VentasEncabezado)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*-----Jason Ortega 0901-19-22658--------*/
-create table tblBodega(
-PkId_Bodega int auto_increment not null,
-Nombre_Bodega varchar(30) not null,
-Direccion_Bodega varchar(30) not null,
-Telefono_Bodega varchar(12) not null,
-FkId_PersonalBodega int not null,
-primary key (PkId_Bodega),
-foreign key(FkId_PersonalBodega) references tblPersonalBodega(PkId_PersonalBodega)
+create table tblDetalleReciboClientes(
+PkId_ReciboClientes int not null,
+FkId_Producto int not null,
+Cantidad_DetalleReciboClientes int not null,
+Iva_DetalleReciboClientes float not null,
+Subtotal_DetalleReciboClientes float not null,
+foreign key(PkId_ReciboClientes) references tblReciboClientes(PkId_ReciboClientes),
+foreign key(FkId_Producto) references tblProducto(PkId_Producto)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*-----Jason Ortega 0901-19-22658--------*/
+create table tblCajaClientes(
+PkId_CajaClientes int not null,
+FkId_PagoClientes int not null,
+Saldo float not null,
+FkId_FacturaClientes int not null,
+FkId_ReciboClientes int not null,
+primary key(PkId_CajaClientes),
+foreign key(FkId_PagoClientes) references tblPagoClientes(PkId_PagoClientes),
+foreign key(FkId_FacturaClientes) references tblFacturaClientes(PkId_FacturaClientes),
+foreign key(FkId_ReciboClientes) references tblReciboClientes(PkId_ReciboClientes)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*George Mayén 0901-19-11383*/
+create table tblDetallePedido(
+PkId_EncabezadoPedido int not null,
+FkId_Bodega int not null,
+CantidadDetalle_DetallePedido int,
+CostoDetalle_DetallePedido float,
+TotalDetalle_DetallePedido float,
+foreign key (PkId_EncabezadoPedido) references tblEncabezadoPedido(PkId_EncabezadoPedido),
+foreign key (FkId_Bodega) references tblBodega(PkId_Bodega)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*George Mayén 0901-19-11383*/
+create table tblMovimientoClientes(
+PkId_Clientes int not null,
+FkId_PagoClientes int not null,
+Importe_MovimientoClientes float,
+Abonos_MovimientoClientes float,
+Saldo_MovimientoClientes float,
+foreign key (PkId_Clientes) references tblClientes(PkId_Clientes),
+foreign key (FkId_PagoClientes) references tblPagoClientes(PkId_PagoClientes)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*George Mayén 0901-19-11383*/
 create table tblCobrador(
-PkId_Cobrador int,
-Nombre_Cobrador varchar(20),
-Dpi_Cobrador varchar(15),
-Domicilio_Cobrador varchar(50),
-Telefono_Cobrador varchar(15),
-Nit_Cobrador varchar(15),
-Correo_Cobrador varchar(15),
-primary key(PkId_Cobrador)
+PkId_Cobrador int not null,
+FkId_Empleados int not null,
+FkId_FacturaClientes int not null,
+CantidadCobros_Cobrador int not null,
+primary key(PkId_Cobrador),
+foreign key (FkId_Empleados) references tblEmpleados(PkId_Empleados),
+foreign key(FkId_FacturaClientes) references tblFacturaClientes(PkId_FacturaClientes)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*George Mayén 0901-19-11383*/
-create table tblCliente(
-PkId_Cliente int not null,
-FkId_Cobrador int,
-Nombre_cliente varchar(20),
-Domicilio_Cliente varchar(50),
-Telefono_Cliente varchar(15),
-Correo_Cliente varchar(15),
-primary key(PkId_Cliente),
-foreign key (FkId_Cobrador) references tblCobrador (PkId_Cobrador)
+create table tblEncabezadoOrdenCompra(
+PkId_EncabezadoOrdenCompra int not null,
+FechaEntrega_EncabezadoOrdenCompra date,
+Estatus_EncabezadoOrdenCompra tinyint,
+primary key(PkId_EncabezadoOrdenCompra)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*George Mayén 0901-19-11383*/
-create table tblCuentasPorPagarCobrar(
-PkId_CuentasPorPagarCobrar int,
-FkId_Cliente int,
-FkId_Proveedor int,
-Descripcion_CuentasPorPagarCobrar varchar(50),
-Tipo_CuentasPorPagarCobrar varchar(15),
-Valor_CuentasPorPagarCobrar float,
-Fecha_CuentasPorPagarCobrar date,
-Estado_CuentasPorPagarCobrar tinyint,
-primary key(PkId_CuentasPorPagarCobrar),
-foreign key (FkId_Cliente) references tblCliente(PkId_Cliente),
-foreign key (FkId_Proveedor) references tblProveedores(PkId_Proveedores)
-)
-ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*Cristian Jocol 0901-19-17747*/
+create table tblDetalleCompra(
+PkId_ComprasEncabezado int  not null,
+FkId_Producto int not null,
+FkId_Sucursal int not null,
+FkId_Serie int not null,
+FkId_EncabezadoOrdenCompra int not null,
+Precio_DetalleCompra float,
+Cantidad_DetalleCompra int not null,
+Costo_DetalleCompra float,
+Total_DetalleCompra float,
+FkId_CertificacionFacturacion int not null,
+foreign key (PkId_ComprasEncabezado) references tblComprasEncabezado(PkId_ComprasEncabezado),
+foreign key (FkId_Producto) references tblProducto(PkId_Producto),
+foreign key (FkId_Sucursal) references tblSucursal(PkId_Sucursal),
+foreign key (FkId_EncabezadoOrdenCompra) references tblEncabezadoOrdenCompra(PkId_EncabezadoOrdenCompra),
+foreign key (FkId_Serie) references tblSerie(PkId_Serie),
+foreign key (FkId_CertificacionFacturacion) references tblCertificacionFacturacion(PkId_CertificacionFacturacion)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Cristian Jocol 0901-19-17747*/
+create table tblFacturaProveedores(
+PkId_FacturaProveedores int  not null,
+FkId_ComprasEncabezado int,
+Nit_FacturaProveedores varchar(20) not null,
+fechaEmision_FacturaProveedor date,
+/*FkId_Asociacion varchar(20),*/
+total_FacturaProveedor float not null,
+primary key (PkId_FacturaProveedores),
+foreign key (FkId_ComprasEncabezado) references tblComprasEncabezado(PkId_ComprasEncabezado)
+/*foreign key (FkId_Asociacion) references tblAsociacion(PkId_Asociacion)*/
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Cristian Jocol 0901-19-17747*/
+create table tblDetalleFacturaProveedores(
+PkId_FacturaProveedores int  not null,
+FkId_Producto int not null,
+Cantidad_DetalleFacturaProveedores int not null,
+IvaPorPagar_DetalleFacturaProveedores int,
+Total_DetalleFacturaProveedores float,
+foreign key (FkId_Producto) references tblProducto(PkId_Producto),
+foreign key (PkId_FacturaProveedores) references tblFacturaProveedores(PkId_FacturaProveedores)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Cristian Jocol 0901-19-17747*/
+create table tblReciboProveedores(
+PkId_ReciboProveedores int  not null,
+FkId_ComprasEncabezado int not null,
+Nit_ReciboProveedores varchar(20) not null,
+FechaEmision_ReciboProveedores date not null,
+primary key (PkId_ReciboProveedores),
+foreign key (FkId_ComprasEncabezado) references tblComprasEncabezado(PkId_ComprasEncabezado)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*-----Jason Ortega 0901-19-22658--------*/
-create table tblFactura(
-PkId_Factura int auto_increment not null,
+create table tblDetalleReciboProveedores(
+PkId_ReciboProveedores int not null,
 FkId_Producto int not null,
-IvaPorCobrar_Factura float not null,
-Nit_Factura varchar(20) not null,
-FechaDeEmision date not null,
-Subtotal_Factura float not null,
-Total_Factura float not null,
-primary key(PkId_Factura),
+Cantidad_DetalleReciboProveedores int not null,
+Iva_DetalleReciboProveedores float not null,
+Subtotal_DetalleReciboProveedores float not null,
+foreign key(PkId_ReciboProveedores) references tblReciboProveedores(PkId_ReciboProveedores),
 foreign key(FkId_Producto) references tblProducto(PkId_Producto)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*-----Jason Ortega 0901-19-22658--------*/
-create table tblPago(
-PkId_Pago int auto_increment not null,
-FkId_Cliente int not null,
-Cantidad_Pago float not null,
-FkId_Factura int not null,
-FechaEmision_Pago date not null,
-Descripcion_Pago varchar(50) not null,
-primary key(PkId_Pago),
-foreign key(FkId_Cliente) references tblCliente(PkId_Cliente),
-foreign key(FkId_Factura) references tblFactura(PkId_Factura)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*-----Jason Ortega 0901-19-22658--------*/
-create table tblEncabezadoFactura(
-PkId_EncabezadoFactura int,
-FkId_Factura int not null,
-FkId_Cliente int not null,
-Fecha_EncabezadoFactura date not null,
-FkId_Pago int not null,
-primary key(PkId_EncabezadoFactura),
-foreign key(FkId_Factura) references tblFactura(PkId_Factura),
-foreign key(FkId_Cliente) references tblCliente(PkId_Cliente),
-foreign key(FkId_Pago) references tblPago(PkId_Pago)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*-----Jason Ortega 0901-19-22658--------*/
-create table tblDetalleFactura(
-PkId_DetalleFactura int auto_increment not null,
-FkId_Factura int not null,
-FkId_Producto int not null,
-Cantidad_DetalleFactura int not null,
-primary key(PkId_DetalleFactura),
-foreign key(FkId_Factura) references tblFactura(PkId_Factura),
-foreign key(FkId_Producto) references tblProducto(PkId_Producto)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*-----Jason Ortega 0901-19-22658--------*/
-create table tblCompras(
-PkId_Compras int auto_increment not null,
-FkId_Proveedores int not null,
-FkId_Producto int not null,
-Domicilio_Compras varchar(30) not null,
-FkId_Bodega int not null,
-Fecha_Compras date not null,
-FechaRecepcion_Compras date not null,
-primary key(PkId_Compras),
-foreign key(FkId_Proveedores) references tblProveedores(PkId_Proveedores),
-foreign key(FkId_Producto) references tblProducto(PkId_Producto),
-foreign key(FkId_Bodega) references tblBodega(PkId_Bodega)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*-----Jason Ortega 0901-19-22658--------*/
-create table tblDetalleCompras(
-PkId_DetalleCompras int auto_increment not null,
-FkId_Factura int not null,
-FkId_Producto int not null,
-FkId_Bodega int not null,
-Cantidad_DetalleCompras int not null,
-Costo_DetalleCompras float not null,
-Total_DetalleCompras float not null,
-primary key(PkId_DetalleCompras),
-foreign key(FkId_Factura) references tblFactura(PkId_Factura),
-foreign key(FkId_Producto) references tblProducto(PkId_Producto),
-foreign key(FkId_Bodega) references tblBodega(PkId_Bodega)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*-----Jason Ortega 0901-19-22658--------*/
-create table tblEncabezadoCompras(
-PkId_EncabezadoCompras int not null,
-FkId_Factura int not null,
-FkId_Bodega int not null,
-FkId_Proveedores int not null,
-FechaEmision_EncabezadoCompras date not null,
-FechaVencimiento_EncabezadoCompras date not null,
-FkId_CuentasPorPagarCobrar int not null,
-EstatusFactura_EncabezadoCompras tinyint,
-primary key(PkId_EncabezadoCompras),
-foreign key(FkId_Factura) references tblFactura(PkId_Factura),
-foreign key(FkId_Bodega) references tblBodega(PkId_Bodega),
-foreign key(FkId_Proveedores) references tblProveedores(PkId_Proveedores),
-foreign key(FkId_CuentasPorPagarCobrar) references tblCuentasPorPagarCobrar(PkId_CuentasPorPagarCobrar)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*-----Jason Ortega 0901-19-22658--------*/
-create table tblOrdenDeCompras(
-PkId_OrdenDeCompras int auto_increment not null,
-FkId_Compras int not null,
-primary key(PkId_OrdenDeCompras),
-foreign key(FkId_Compras) references tblCompras(PkId_Compras)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*-----Jason Ortega 0901-19-22658--------*/
-create table tblEncabezadoOrdenCompras(
-PkId_EncabezadoOrdenCompras int not null,
-FkId_OrdenDeCompras int not null,
-FkId_Bodega int not null,
-FkId_Proveedores int not null,
-FechaEmision_EncabezadoOrdenCompras date not null,
-FechaEntrega_EncabezadoOrdenCompras date not null,
-FkId_CuentasPorPagarCobrar int not null,
-EstatusOrdenCompras_EncabezadoOrdenCompras tinyint,
-foreign key(FkId_OrdenDeCompras) references tblOrdenDeCompras(PkId_OrdenDeCompras),
-foreign key(FkId_Bodega) references tblBodega(PkId_Bodega),
-foreign key(FkId_Proveedores) references tblProveedores(PkId_Proveedores),
-foreign key(FkId_CuentasPorPagarCobrar) references tblCuentasPorPagarCobrar(PkId_CuentasPorPagarCobrar)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*-----Jason Ortega 0901-19-22658--------*/
-create table tblDetalleOrdenDeCompras(
-PkId_DetalleOrdenCompras int auto_increment not null,
-FkId_OrdenDeCompras int not null,
-FkId_Producto int not null,
-FkId_Bodega int not null,
-Cantidad_DetalleOrdenCompras int not null,
-Costo_DetalleOrdenCompras int not null,
-Total_DetalleOrdenCompras int not null,
-primary key(PkId_DetalleOrdenCompras),
-foreign key(FkId_OrdenDeCompras) references tblOrdenDeCompras(PkId_OrdenDeCompras),
-foreign key(FkId_Producto) references tblProducto(PkId_Producto),
-foreign key(FkId_Bodega) references tblBodega(PkId_Bodega)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*George Mayén 0901-19-11383*/
-create table tblVendedor(
-PkId_Vendedor int,
-Nombre_Vendedor varchar(20),
-Dpi_Vendedor varchar(15),
-Domicilio_Vendedor varchar(50),
-Telefono_Vendedor varchar(15),
-Nit_Vendedor varchar(15),
-Correo_Vendedor varchar(15),
-primary key(PkId_Vendedor)
+create table tblCajaProveedores(
+PkId_CajaProveedores int not null,
+FkId_PagoProveedores int not null,
+Saldo float not null,
+FkId_FacturaProveedores int not null,
+FkId_ReciboProveedores int not null,
+primary key(PkId_CajaProveedores),
+foreign key(FkId_PagoProveedores) references tblPagoProveedores(PkId_PagoProveedores),
+foreign key(FkId_FacturaProveedores) references tblFacturaProveedores(PkId_FacturaProveedores),
+foreign key(FkId_ReciboProveedores) references tblReciboProveedores(PkId_ReciboProveedores)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*George Mayén 0901-19-11383*/
-create table tblCobrosDelDia(
-PkId_CobrosDelDia int,
-FkId_Cliente int,
-FkId_Vendedor int,
-FechaCorteCobrosDelDia date,
-primary key(PkId_CobrosDelDia),
-foreign key (FkId_Cliente) references tblCliente(PkId_Cliente),
-foreign key (FkId_Vendedor) references tblVendedor(PKId_Vendedor)
+create table tblDetalleOrdenCompra(
+PkId_EncabezadoOrdenCompra int not null,
+FkId_Bodega int not null,
+Cantidad_DetalleOrdenCompra int,
+Costo_DetalleOrdenCompra float,
+Total_DetalleOrdenCompra float,
+foreign key (PkId_EncabezadoOrdenCompra) references tblEncabezadoOrdenCompra(PkId_EncabezadoOrdenCompra),
+foreign key (FkId_Bodega) references tblBodega(PkId_Bodega)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*George Mayén 0901-19-11383*/
-create table tblVentas(
-PkId_Ventas int,
-FkId_Vendedor int,
-FkId_Cliente int,
-FkId_Factura int,
-Descripcion_Ventas varchar(50),
-Fecha_Ventas date,
-primary key(PKId_Ventas),
-foreign key (FkId_Cliente) references tblCliente(PkId_Cliente),
-foreign key (FkId_Vendedor) references tblVendedor(PkId_Vendedor),
-foreign key (FkId_Cliente) references tblCliente(PkId_Cliente),
-foreign key (FkId_Factura) references tblFactura(PkId_Factura)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*George Mayén 0901-19-11383*/
+/*-----Jason Ortega 0901-19-22658--------*/
 create table tblMovimientoProveedores(
-PkId_MovimientoProveedores int, 
-FkId_Proveedor int,
-FkId_Producto int,
-RubroGiro_MovimientoProveedores varchar(50),
-Servicios_MovimientoProveedores varchar(50),
-primary key(PKId_MovimientoProveedores),
-foreign key (FkId_Proveedor) references tblProveedores(PkId_Proveedores),
+PkId_Proveedores int not null,
+FkId_PagoProveedores int not null,
+Importe_MovimientoProveedores float not null,
+Abonos_MovimientoProveedores float not null,
+Saldo_MovimientoProveedores float not null,
+foreign key (PkId_Proveedores) references tblProveedores(PkId_Proveedores),
+foreign key (FkId_PagoProveedores) references tblPagoProveedores(PkId_PagoProveedores)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*George Mayén 0901-19-11383*/
+create table tblCotizaciones(
+PkId_Cotizaciones int not null,
+FkId_Vendedores int not null,
+FkId_Clientes int not null,
+Descripcion_Cotizaciones varchar(50),
+FechaEmision_Cotizaciones date,
+FechaVencimiento_Cotizaciones date,
+Cuotas_Cotizaciones float,
+Total_Cotizaciones float,
+primary key(PkId_Cotizaciones),
+foreign key (FkId_Vendedores) references tblVendedores(PkId_Vendedores),
+foreign key (FkId_Clientes) references tblClientes(PkId_Clientes)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*George Mayén 0901-19-11383*/
+create table tblDetalleCotizaciones(
+PkId_Cotizaciones int not null,
+FkId_Producto int not null,
+Cantidad_DetalleCotizaciones float,
+Total_DetalleCotizaciones float,
+foreign key (PkId_Cotizaciones) references tblCotizaciones(PkId_Cotizaciones),
 foreign key (FkId_Producto) references tblProducto(PkId_Producto)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*-----Jason Ortega 0901-19-22658--------*/
+create table tblComision(
+PkId_Comision int not null,
+FkId_Empleados int not null,
+FkId_VentasEncabezado int not null,
+Bono_Comision float,
+primary key(PkId_Comision),
+foreign key (FkId_Empleados) references tblEmpleados(PkId_Empleados),
+foreign key (FkId_VentasEncabezado) references tblVentasEncabezado(PkId_VentasEncabezado)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*George Mayén 0901-19-11383*/
-create table tblCuentaCorriente(
-PkId_CuentaCorriente int not null,
-FkId_Cliente int not null,
-Descripcion_CuentaCorriente varchar(50),
-Periodo_CuentaCorriente datetime,
-Debito_CuentaCorriente float,
-Credito_CuentaCorriente float,
-Saldo_CuentaCorriente float,
-primary key (PkId_CuentaCorriente),
-foreign key (FkId_Cliente) references tblCliente(PkId_Cliente)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*PRODUCCION*/
 CREATE TABLE IF NOT EXISTS `tbl_recetas` (
