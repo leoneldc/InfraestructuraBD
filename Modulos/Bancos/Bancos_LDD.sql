@@ -21,14 +21,15 @@ CREATE TABLE IF NOT EXISTS `Tbl_Reportes` (
     )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `Tbl_Reg_tipoCambio` (
-  `Pk_fecha_RtCambio` DATE NOT NULL,
+   `Pk_regTipoCambio` INT NOT NULL,
+  `fecha_RtCambio` DATE NOT NULL,
   `compra_RtCambio` FLOAT NULL,
   `venta_RtCambio` FLOAT NULL,
   `Moneda_RtCambio` VARCHAR(20) NULL,
-  `reporteCambio_RtCambio` INT NULL,
-  PRIMARY KEY (`Pk_fecha_RtCambio`),
-  FOREIGN KEY (`reporteCambio_RtCambio`) REFERENCES `Tbl_Reportes` (`Pk_idReportes`)
+  PRIMARY KEY (`Pk_regTipoCambio`)
     )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    
+
 
 CREATE TABLE IF NOT EXISTS `Tbl_Cuentas` (
   `Pk_idCuentas` INT NOT NULL,
