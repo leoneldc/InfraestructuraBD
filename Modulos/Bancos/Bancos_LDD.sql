@@ -29,8 +29,6 @@ CREATE TABLE IF NOT EXISTS `Tbl_Reg_tipoCambio` (
   PRIMARY KEY (`Pk_regTipoCambio`)
     )ENGINE=InnoDB DEFAULT CHARSET=utf8;
     
-
-
 CREATE TABLE IF NOT EXISTS `Tbl_Cuentas` (
   `Pk_idCuentas` INT NOT NULL,
   `Nombre_cta` VARCHAR(45) NOT NULL,
@@ -49,9 +47,10 @@ CREATE TABLE IF NOT EXISTS `Tbl_tiposMov` (
   CREATE TABLE IF NOT EXISTS `Tbl_ConceptosBancario` (
   `Pk_idConcepto` INT NOT NULL,
   `Nombre_cbancario` DATE NULL,
-  `Descripción` VARCHAR(45) NULL,
-  `Tipo` VARCHAR(10) NULL,
-  PRIMARY KEY (`Pk_idDispo`)
+  `PorcentajeIva` float null,
+  `Clasificacion` VARCHAR(5) NOT NULL,
+  `Estado` TINYINT DEFAULT 0,
+  PRIMARY KEY (`Pk_idConcepto`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `Tbl_Movimientos_bancos` (
@@ -79,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `Tbl_Ctrl_cheques` (
   `MontoLet_cheques` VARCHAR (100) NULL,
   `fk_Banco_cheques` INT NULL,
   PRIMARY KEY (`Pk_idControl_cheques`),
-  FOREIGN KEY (`fk_id_cta_Empleado_cheques`) REFERENCES `Tbl_Cuentas` (`Pk_idCuentas`),
+  FOREIGN KEY (`fk_id_cuentabancaria`) REFERENCES `Tbl_Cuentas` (`Pk_idCuentas`),
     FOREIGN KEY (`fk_Banco_cheques`) REFERENCES `Tbl_bancos` (`Pk_idbancos`),
     FOREIGN KEY (`fk_id_cuentabancaria`) REFERENCES `Tbl_Cuentas` (`Pk_idCuentas`),
     FOREIGN KEY (`fk_id_concepto`) REFERENCES `Tbl_ConceptosBancario` (`Pk_idConcepto`)
@@ -103,6 +102,7 @@ CREATE TABLE IF NOT EXISTS `Tbl_Disponibilidad` (
   PRIMARY KEY (`Pk_idDispo`),
 FOREIGN KEY (`cuentaDispo`) REFERENCES `Tbl_Cuentas` (`Pk_idCuentas`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 
 
