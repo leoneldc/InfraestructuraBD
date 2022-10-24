@@ -646,36 +646,38 @@ foreign key (FkId_VentasEncabezado) references tblVentasEncabezado(PkId_VentasEn
 
 
 /*PRODUCCION*/
-CREATE TABLE IF NOT EXISTS `tbl_recetas` (
-  `pk_idrecetas_tbl_recetas` int NOT NULL,
-  `producto_tbl_recetas` varchar(45) NOT NULL,
-  `nombre_material_tbl_recetas` varchar(100) NOT NULL,
-  `cantidad_tbl_recetas` varchar(100) NOT NULL,
-  PRIMARY KEY (`pk_idrecetas_tbl_recetas`)
-) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
+CREATE TABLE `colchoneria`.`tbl_recetas` (
+  `pk_idrecetas_tbl_recetas` INT NOT NULL AUTO_INCREMENT,
+  `producto_tbl_recetas` VARCHAR(45) NOT NULL,
+  `nombre_material_tbl_recetas` VARCHAR(100) NOT NULL,
+  `cantidad_tbl_recetas` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`pk_idrecetas_tbl_recetas`));
 
-CREATE TABLE IF NOT EXISTS `tbl_ordenes` (
-  `pk_idordenes_tbl_ordenes` int NOT NULL,
-  `fk_idreceta_tbl_ordenes` int NOT NULL,
-  `prioridad_tbl_ordenes` varchar(45) NOT NULL,
-  `producto_fabricar_tbl_ordenes` varchar(45) DEFAULT NULL,
-  `fechaini_tbl_ordenes` date DEFAULT NULL,
-  `fechaent` date DEFAULT NULL,
-  PRIMARY KEY (`pk_idordenes_tbl_ordenes`),
-  FOREIGN KEY (`fk_idreceta_tbl_ordenes`) REFERENCES `tbl_recetas` (`pk_idrecetas_tbl_recetas`)
-) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
+CREATE TABLE `colchoneria`.`tbl_ordenes` (
+  `idordenes_tbl_ordenes` INT NOT NULL AUTO_INCREMENT,
+  `idreceta_tbl_ordenes` INT NOT NULL,
+  `prioridad_tbl_ordenes` VARCHAR(45) NOT NULL,
+  `producto_fabricar_tbl_ordenes` VARCHAR(45) NOT NULL,
+  `cantidad` INT NOT NULL,
+  `fechaini_tbl_ordenes` VARCHAR(25) NOT NULL,
+  `fechaent` VARCHAR(25) NOT NULL,
+  PRIMARY KEY (`idordenes_tbl_ordenes`),
+  INDEX `pkidreceta_idx` (`idreceta_tbl_ordenes` ASC) VISIBLE,
+  CONSTRAINT `pkidreceta`
+    FOREIGN KEY (`idreceta_tbl_ordenes`)
+    REFERENCES `colchoneria`.`tbl_recetas` (`pk_idrecetas_tbl_recetas`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
 
-CREATE TABLE IF NOT EXISTS`_tbl_procesoprod` (
-  `pk_codigo_proceso_tbl_procesoprod` int NOT NULL,
-  `fk_idordenes_tbl_procesoprod` int NOT NULL,
-  `producto_fabricar_tbl_procesoprod` varchar(60) NOT NULL,
-  `cantidad_fabricar_tbl_procesoprod` varchar(60) NOT NULL,
-  `fecha_entrega_tbl_procesoprod` varchar(20) NOT NULL,
-  `proceso_pro_tbl_procesoprod` varchar(10) NOT NULL,
-  `estado_orden_tbl_procesoprod` varchar(1) NOT NULL,
-  PRIMARY KEY (`pk_codigo_proceso_tbl_procesoprod`),
-  FOREIGN KEY (`fk_idordenes_tbl_procesoprod`) REFERENCES `tbl_ordenes` (`pk_idordenes_tbl_ordenes`)
-) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
+CREATE TABLE `colchoneria`.`_tbl_procesoprod` (
+  `pk_codigo_proceso` INT NOT NULL,
+  `fk_idordenes_tbl_procesoprod` VARCHAR(45) NULL,
+  `producto_fabricar_tbl_procesoprod` VARCHAR(60) NULL,
+  `cantidad_fabricar_tbl_procesoprod` VARCHAR(60) NULL,
+  `fecha_entrega_tbl_procesoprod` VARCHAR(20) NULL,
+  `proceso_pro_tbl_procesoprod` VARCHAR(10) NULL,
+  `estado_orden_tbl_procesoprod` VARCHAR(1) NULL,
+  PRIMARY KEY (`pk_codigo_proceso`));
 /*NOMINAS*/
 CREATE TABLE IF NOT EXISTS `tbl_departamentos` (
 	pk_id_departamento  INT AUTO_INCREMENT NOT NULL,
