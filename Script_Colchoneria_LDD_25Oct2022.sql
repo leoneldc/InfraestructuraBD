@@ -1,7 +1,7 @@
 /*BASE DE DATOS COLCHONERÍA*/
 CREATE DATABASE IF NOT EXISTS `colchoneria`;
 USE `colchoneria`;
-/*SEGURIDAD*/
+/********************SEGURIDAD********************/
 DROP TABLE IF EXISTS `tbl_modulos`;
 CREATE TABLE IF NOT EXISTS `tbl_modulos` (
 	pk_id_modulos INT NOT NULL,
@@ -104,8 +104,16 @@ CREATE TABLE IF NOT EXISTS `tbl_bitacoraDeEventos` (
   FOREIGN KEY (`fk_id_usuario`) REFERENCES `tbl_usuarios` (`pk_id_usuario`),
   FOREIGN KEY (`fk_id_aplicacion`) REFERENCES `tbl_aplicaciones` (`pk_id_aplicacion`)
 )ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
-
-/*CONSULTA INTELIGENTE*/
+/********************REPORTEADOR********************/
+CREATE TABLE tbl_regreporteria (
+  idregistro int NOT NULL AUTO_INCREMENT,
+  ruta varchar(500) NOT NULL,
+  nombre_archivo varchar(45) NOT NULL,
+  aplicacion varchar(45) NOT NULL,
+  estado varchar(45) NOT NULL,
+  PRIMARY KEY (`idregistro`)
+) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
+/********************CONSULTA INTELIGENTE********************/
 CREATE TABLE IF NOT EXISTS tbl_consultainteligente (
 	nombre_consulta varchar(50) not null,
     tabla_consulta varchar(50) not null,
@@ -134,8 +142,8 @@ CREATE TABLE IF NOT EXISTS tbl_consultainteligente2 (
 )ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 
-/*MODULOS*/
-/*LOGISTICA*/
+/********************MODULOS********************/
+/********************LOGISTICA********************/
 create table tbl_marca (
 pk_codigo_marca int not null primary key auto_increment,
 nombre_marca varchar(100)
@@ -246,7 +254,7 @@ cantidad int,
 foreign key (fk_producto) references tbl_producto (pk_codigo_producto)
 )ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
-/*COMPRASYVENTAS*/
+/********************COMPRASYVENTAS********************/
 create table tblBodega(
 PkId_Bodega int not null,
 Direccion_Bodega varchar(30) not null,
@@ -813,12 +821,13 @@ CREATE TABLE IF NOT EXISTS `tbl_nominas` (
     FOREIGN KEY (`fk_id_trabajador`) REFERENCES `tbl_trabajador` (`pk_id_trabajador`)
 )ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
-/*BANCOS*/
+/********************BANCOS********************/
 CREATE TABLE IF NOT EXISTS `Tbl_bancos` (
   `Pk_idbancos` INT NOT NULL,
   `nombre_banco` VARCHAR(25) NULL,
   `direccion_banco` VARCHAR(45) NULL,
   `contacto_banco` VARCHAR(45) NULL,
+  `Saldo_banco` FLOAT NOT NULL,
   PRIMARY KEY (`Pk_idbancos`)
   )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -850,16 +859,15 @@ CREATE TABLE IF NOT EXISTS `Tbl_Cuentas` (
   PRIMARY KEY (`Pk_idCuentas`)
   )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `Tbl_tiposMov` (
-  `Pk_idTipoMov` INT NOT NULL,
-  `Concepto_Tipo` VARCHAR(15) NULL,
-  `Descripcion_Tipo` VARCHAR(45) NULL,
-  PRIMARY KEY (`Pk_idTipoMov`)
+CREATE TABLE IF NOT EXISTS `Tbl_tiposPagos` (
+  `Pk_idTipoPagos` INT NOT NULL,
+  `Concepto_Tipo` VARCHAR(25) NULL,
+  PRIMARY KEY (`Pk_idTipoPagos`)
   )ENGINE=InnoDB DEFAULT CHARSET=utf8;
   
   CREATE TABLE IF NOT EXISTS `Tbl_ConceptosBancario` (
   `Pk_idConcepto` INT NOT NULL,
-  `Nombre_cbancario` DATE NULL,
+  `Nombre_cbancario` VARCHAR(50) NOT NULL,
   `PorcentajeIva` float null,
   `Clasificacion` VARCHAR(5) NOT NULL,
   `Estado` TINYINT DEFAULT 0,
@@ -868,17 +876,21 @@ CREATE TABLE IF NOT EXISTS `Tbl_tiposMov` (
 
 CREATE TABLE IF NOT EXISTS `Tbl_Movimientos_bancos` (
   `Pk_idMovimientos` INT NOT NULL,
-  `tipo_mov` INT NULL,
-  `fecha_reg` DATE NULL,
-  `forma_pago` VARCHAR(20) NULL,
-  `fk_id_concepto` int not null,
-  `fechaApli_Movimientos` DATE NULL,
-  `Cuenta_rela` INT NULL,
+  `fk_tipo_pago` INT NULL,
+  `fk_id_concepto` INT NOT NULL,
+  `fecha_mov` DATE NULL,
+  `fk_Cuenta_banco` INT NULL,
+  `fk_Cuenta_rela` INT NULL,
+  `fk_tipomoneda` INT NULL,
   `Monto` FLOAT NULL,
   `iva` FLOAT NULL,
+  `fk_Banco_Mov` INT NULL,
 PRIMARY KEY (`Pk_idMovimientos`),
-FOREIGN KEY (`tipo_mov`) REFERENCES `Tbl_tiposMov` (`Pk_idTipoMov`),
-FOREIGN KEY (`fk_id_concepto`) REFERENCES `Tbl_ConceptosBancario` (`Pk_idConcepto`)
+FOREIGN KEY (`fk_tipo_pago`) REFERENCES `Tbl_tiposPagos` (`Pk_idTipoPagos`),
+FOREIGN KEY (`fk_id_concepto`) REFERENCES `Tbl_ConceptosBancario` (`Pk_idConcepto`),
+FOREIGN KEY (`fk_tipomoneda`) REFERENCES `Tbl_Reg_tipoCambio` (`Pk_regTipoCambio`),
+FOREIGN KEY (`fk_Cuenta_banco`) REFERENCES `Tbl_bancos` (`Pk_idbancos`),
+ FOREIGN KEY (`fk_Cuenta_rela`) REFERENCES `Tbl_Cuentas` (`Pk_idCuentas`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `Tbl_Ctrl_cheques` (
@@ -893,7 +905,6 @@ CREATE TABLE IF NOT EXISTS `Tbl_Ctrl_cheques` (
   PRIMARY KEY (`Pk_idControl_cheques`),
   FOREIGN KEY (`fk_id_cuentabancaria`) REFERENCES `Tbl_Cuentas` (`Pk_idCuentas`),
     FOREIGN KEY (`fk_Banco_cheques`) REFERENCES `Tbl_bancos` (`Pk_idbancos`),
-    FOREIGN KEY (`fk_id_cuentabancaria`) REFERENCES `Tbl_Cuentas` (`Pk_idCuentas`),
     FOREIGN KEY (`fk_id_concepto`) REFERENCES `Tbl_ConceptosBancario` (`Pk_idConcepto`)
     )ENGINE=InnoDB DEFAULT CHARSET=utf8;
     
@@ -916,8 +927,7 @@ CREATE TABLE IF NOT EXISTS `Tbl_Disponibilidad` (
 FOREIGN KEY (`cuentaDispo`) REFERENCES `Tbl_Cuentas` (`Pk_idCuentas`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
-/*CONTABILIDAD*/
+/********************CONTABILIDAD********************/
 CREATE TABLE IF NOT EXISTS `tbl_PolizasLocales` (
 	pk_PolizasLocales INT NOT NULL,
     emision_poliza varchar(40) not null,
