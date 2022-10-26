@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS `tbl_contrato` (
     primary key (`pk_id_contrato`)
 )ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
-DROP TABLE IF EXISTS `tbl_prestacionesydeducciones`;
-CREATE TABLE IF NOT EXISTS `tbl_prestacionesydeducciones` (
+DROP TABLE IF EXISTS `tbl_percepciones`;
+CREATE TABLE IF NOT EXISTS `tbl_percepciones` (
 	pk_id_prestdeduc INT AUTO_INCREMENT NOT NULL,
     nombre_prestdeduc VARCHAR(40) NOT NULL,
     tipo_prestdeduc  TINYINT NOT NULL,
@@ -69,8 +69,8 @@ CREATE TABLE IF NOT EXISTS `tbl_controlfaltas` (
     FOREIGN KEY (`fk_clave_empleado`) REFERENCES `tbl_trabajador` (`pk_id_trabajador`)
 )ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
-DROP TABLE IF EXISTS `tbl_asignacionpuestodepartamento`;
-CREATE TABLE IF NOT EXISTS `tbl_asignacionpuestodepartamento` (
+DROP TABLE IF EXISTS `tbl_asignacion_puestodepartamento`;
+CREATE TABLE IF NOT EXISTS `tbl_asignacion_puestodepartamento` (
 	fk_id_puesto INT NOT NULL,
 	fk_id_departamento  INT NOT NULL,
     primary key (`fk_id_puesto`, `fk_id_departamento`),
@@ -78,8 +78,8 @@ CREATE TABLE IF NOT EXISTS `tbl_asignacionpuestodepartamento` (
     FOREIGN KEY (`fk_id_departamento`) REFERENCES `tbl_departamentos` (`pk_id_departamento`)
 )ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
-DROP TABLE IF EXISTS `tbl_asignacionpuestotrabajador`;
-CREATE TABLE IF NOT EXISTS `tbl_asignacionpuestotrabajador` (
+DROP TABLE IF EXISTS `tbl_asignacion_puestotrabajador`;
+CREATE TABLE IF NOT EXISTS `tbl_asignacion_puestotrabajador` (
 	fk_id_puesto INT NOT NULL,
 	fk_id_trabajador  INT NOT NULL,
     primary key (`fk_id_puesto`, `fk_id_trabajador`),
@@ -87,17 +87,17 @@ CREATE TABLE IF NOT EXISTS `tbl_asignacionpuestotrabajador` (
     FOREIGN KEY (`fk_id_trabajador`) REFERENCES `tbl_trabajador` (`pk_id_trabajador`)
 )ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
-DROP TABLE IF EXISTS `tbl_asignacioncontratoprestdeduc`;
-CREATE TABLE IF NOT EXISTS `tbl_asignacioncontratoprestdeduc` (
+DROP TABLE IF EXISTS `tbl_asignacion_contratopercepciones`;
+CREATE TABLE IF NOT EXISTS `tbl_asignacion_contratopercepciones` (
 	fk_id_contrato INT NOT NULL,
 	fk_id_prestdeduc  INT NOT NULL,
     primary key (`fk_id_contrato`, `fk_id_prestdeduc`),
 	FOREIGN KEY (`fk_id_contrato`) REFERENCES `tbl_contrato` (`pk_id_contrato`),
-    FOREIGN KEY (`fk_id_prestdeduc`) REFERENCES `tbl_prestacionesydeducciones` (`pk_id_prestdeduc`)
+    FOREIGN KEY (`fk_id_prestdeduc`) REFERENCES `tbl_percepciones` (`pk_id_prestdeduc`)
 )ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
-DROP TABLE IF EXISTS `tbl_asignacioncontratotrabajador`;
-CREATE TABLE IF NOT EXISTS `tbl_asignacioncontratotrabajador` (
+DROP TABLE IF EXISTS `tbl_asignacion_contratotrabajador`;
+CREATE TABLE IF NOT EXISTS `tbl_asignacion_contratotrabajador` (
 	fk_id_contrato INT NOT NULL,
 	fk_id_trabajador  INT NOT NULL,
     primary key (`fk_id_contrato`, `fk_id_trabajador`),
@@ -105,8 +105,8 @@ CREATE TABLE IF NOT EXISTS `tbl_asignacioncontratotrabajador` (
     FOREIGN KEY (`fk_id_trabajador`) REFERENCES `tbl_trabajador` (`pk_id_trabajador`)
 )ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
-DROP TABLE IF EXISTS `tbl_percydeducindividuales`;
-CREATE TABLE IF NOT EXISTS `tbl_percydeducindividuales` (
+DROP TABLE IF EXISTS `tbl_prestacionesindividuales`;
+CREATE TABLE IF NOT EXISTS `tbl_prestacionesindividuales` (
 	pk_id_prestdeducext INT AUTO_INCREMENT NOT NULL,
 	fk_id_prestdeduc INT NOT NULL,
 	fk_id_trabajador  INT NOT NULL,
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `tbl_percydeducindividuales` (
     cantidad_prestdeducext FLOAT DEFAULT 0,
     primary key (`pk_id_prestdeducext`),
     FOREIGN KEY (`fk_id_trabajador`) REFERENCES `tbl_trabajador` (`pk_id_trabajador`),
-    FOREIGN KEY (`fk_id_prestdeduc`) REFERENCES `tbl_prestacionesydeducciones` (`pk_id_prestdeduc`)
+    FOREIGN KEY (`fk_id_prestdeduc`) REFERENCES `tbl_percepciones` (`pk_id_prestdeduc`)
 )ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 
 DROP TABLE IF EXISTS `tbl_encabezadoNominas`;
@@ -122,8 +122,9 @@ CREATE TABLE IF NOT EXISTS `tbl_encabezadoNominas` (
 	pk_id_nomina INT NOT NULL,
     fechaPago_nomina DATE NOT NULL,
     tipoPago_nomina TINYINT NOT NULL,
-    mesPagado_nomina INT NOT NULL,
-    total_nomina INT DEFAULT 0,
+    mesPagado_nomina VARCHAR(50) NOT NULL,
+    anioPagado_nomina VARCHAR(50) NOT NULL,
+    total_nomina FLOAT DEFAULT 0,
     primary key (`pk_id_nomina`)
 )ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 

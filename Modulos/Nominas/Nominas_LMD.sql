@@ -31,18 +31,35 @@ INSERT INTO `tbl_trabajador` VALUES
 
 INSERT INTO `tbl_contrato` VALUES 
 ('1', '5000', '1', '80', '1', '1'), 
-('2', '10000', '2', '160', '2', '1');
+('2', '5000', '1', '80', '2', '1'),
+('3', '10000', '2', '160', '2', '1'),
+('4', '10000', '2', '160', '1', '1');
 
-INSERT INTO `tbl_asignacionpuestodepartamento` VALUES 
+INSERT INTO `tbl_percepciones` VALUES 
+('1', 'IGSS', '0', '4.83', '0', '1'), 
+('2', 'FORMACIÓN PROFESIONAL', '0', '0.1', '0', '1'), 
+('3', 'HORAS EXTRAS', '1', '150', '0', '1'), 
+('4', 'BONIFICACIÓN INCENTIVO', '1', '0', '250', '1');
+
+INSERT INTO `tbl_asignacion_puestodepartamento` VALUES 
 ('2001', '2000'), ('2002', '2000'), ('2003', '2000'), 
 ('3001', '3000'), ('3002', '3000'), ('3003', '3000'), 
 ('4001', '4000'), ('4002', '4000'), ('4003', '4000'), 
 ('5001', '5000'), ('5002', '5000'), ('5003', '5000'), 
 ('6001', '6000'), ('6002', '6000'), ('6003', '6000');
 
-INSERT INTO `tbl_asignacionpuestotrabajador` VALUES 
+INSERT INTO `tbl_asignacion_puestotrabajador` VALUES 
 ('2001', '1'), ('2002', '2'), ('2003', '3'), 
 ('3001', '4'), ('3002', '5'), ('3003', '6'), 
 ('4001', '7'), ('4002', '8'), ('4003', '9'), 
 ('5001', '10'), ('5002', '11'), ('5003', '12'), 
 ('6001', '13'), ('6002', '14'), ('6003', '15');
+
+INSERT INTO `tbl_asignacion_contratopercepciones` VALUES 
+('1', '1'), ('1', '2'), ('1', '3');
+
+INSERT INTO `tbl_asignacion_contratotrabajador` VALUES 
+('1', '1'), ('1', '2'), ('1', '3'), ('1', '4');
+
+INSERT INTO `tbl_horasextras` VALUES 
+('1', '2022-10-26', '1.5'), ('1', '2022-10-27', '1.5');
